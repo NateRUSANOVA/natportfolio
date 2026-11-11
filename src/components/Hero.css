@@ -1,0 +1,210 @@
+.viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--graphite);
+}
+
+.stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.abs {
+  position: absolute;
+  max-width: none;
+}
+
+.hero__bg,
+.hero__bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.95;
+}
+
+/* soft translucent panel behind the portrait, slightly rotated */
+.hero__panel {
+  position: absolute;
+  left: -24px;
+  top: -3px;
+  width: 593.6px;
+  height: 1026px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero__panel::before {
+  content: '';
+  width: 581.2px;
+  height: 1019px;
+  transform: rotate(0.7deg);
+  background: rgba(217, 217, 217, 0.13);
+}
+.hero__panel img {
+  position: absolute;
+  width: 581.2px;
+  height: 1019px;
+  transform: rotate(0.7deg);
+  object-fit: cover;
+  opacity: 0.2;
+}
+
+/* PORTFOLIO — vertical, gradient text */
+.hero__portfolio {
+  position: absolute;
+  left: 15px;
+  top: 41px;
+  width: 143px;
+  height: 939px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+}
+.hero__portfolio span {
+  display: block;
+  transform: rotate(-90deg);
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 128px;
+  letter-spacing: 28.16px;
+  line-height: normal;
+  background: linear-gradient(to left, #fff 51.6%, #000 54%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.29));
+}
+
+.hero__role {
+  color: #fff;
+  font-style: normal;
+  white-space: nowrap;
+}
+.hero__role p {
+  margin: 0;
+}
+.hero__role strong {
+  font-weight: 600;
+}
+.hero__role-title {
+  font-size: 30px;
+  line-height: 1.42;
+  letter-spacing: 2.88px;
+}
+.hero__role-title strong {
+  font-size: 44px;
+}
+.hero__role-sub {
+  margin-top: -4px !important;
+  font-size: 30px;
+  line-height: 1.42;
+  letter-spacing: 2.4px;
+  text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.56);
+}
+.hero__role-sub strong {
+  font-size: 44px;
+}
+
+.hero__tagline {
+  margin: 0;
+  width: 377px;
+  font-size: 30px;
+  line-height: 1.19;
+  letter-spacing: 2.4px;
+  color: #fff;
+  text-shadow: 0 -5px 4px rgba(0, 0, 0, 0.25);
+}
+.hero__tagline-i {
+  font-size: 32px;
+}
+.hero__tagline em {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-accent);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 46px;
+  line-height: normal;
+  letter-spacing: 10.58px;
+  text-shadow: 7px 11px 4px rgba(0, 0, 0, 0.25);
+}
+
+.hero__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 66px;
+  line-height: normal;
+  white-space: nowrap;
+}
+.hero__open {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.19;
+  letter-spacing: 0.96px;
+  white-space: nowrap;
+}
+
+.hero__line {
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+.hero__line line {
+  stroke: #fff;
+  stroke-opacity: 0.86;
+  stroke-width: 3;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.hero__nav-label {
+  font-family: var(--font-display);
+  font-size: 24px;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.hero__nav-item:hover .hero__nav-label,
+.hero__nav-item:focus-visible .hero__nav-label {
+  color: #fff !important;
+}
+.hero__nav-item:focus-visible {
+  outline: 2px solid #fff;
+}
+
+.hero__lang {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: normal;
+  color: #fff;
+  opacity: 0.85;
+}
+.hero__lang[aria-pressed='true'],
+.hero__lang:hover {
+  opacity: 1;
+}
+.hero__lang:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+.hero__lang-underline {
+  object-fit: fill;
+  pointer-events: none;
+  transition: left 0.25s;
+}
