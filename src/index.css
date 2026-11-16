@@ -15,14 +15,13 @@ html,
 body,
 #root {
   margin: 0;
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
   background: var(--graphite);
   color: #fff;
   font-family: var(--font-body);
-  overflow: hidden;
 }
 
 a {

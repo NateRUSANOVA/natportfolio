@@ -1,0 +1,332 @@
+/*
+ * Mobile first screen (< 768px). One vertical flow — nothing is absolutely positioned
+ * over other content, so layers cannot collide while scrolling.
+ *
+ * --w is the content width: the screen width, capped so large phones / small tablets
+ * keep the same proportions. All sizes derive from it (checked at 320 / 375 / 390 / 430).
+ */
+.hm {
+  --w: min(100vw, 480px);
+  --pad: clamp(16px, calc(var(--w) * 0.055), 26px);
+  --gap: clamp(20px, calc(var(--w) * 0.07), 34px);
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--graphite);
+  color: #fff;
+}
+
+.hm__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* light textured zone with the portrait → warm graphite → deep near-black */
+  background: linear-gradient(
+    to bottom,
+    #b9b5ae 0,
+    #aeaaa3 calc(var(--w) * 0.8),
+    #6c6864 calc(var(--w) * 1.25),
+    #3c3a38 calc(var(--w) * 1.65),
+    #27252a calc(var(--w) * 1.98),
+    #1d1c20 calc(var(--w) * 2.25),
+    #1d1c20 100%
+  );
+}
+.hm__bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: soft-light;
+  /* the grain thins out as the background darkens */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 calc(var(--w) * 1),
+    rgba(0, 0, 0, 0.5) calc(var(--w) * 1.6),
+    rgba(0, 0, 0, 0.12) calc(var(--w) * 2.3),
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 calc(var(--w) * 1),
+    rgba(0, 0, 0, 0.5) calc(var(--w) * 1.6),
+    rgba(0, 0, 0, 0.12) calc(var(--w) * 2.3),
+    rgba(0, 0, 0, 0.05) 100%
+  );
+}
+
+.hm__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 8px var(--pad) calc(40px + env(safe-area-inset-bottom, 0px));
+}
+
+/* language switcher — 44px touch targets */
+.hm__langs {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: -10px;
+}
+.hm__langs button {
+  min-width: 48px;
+  min-height: 44px;
+  padding: 0 10px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: 2.4px;
+  color: #1d1c20;
+  opacity: 0.7;
+  border-bottom: 2px solid transparent;
+}
+.hm__langs button[aria-pressed='true'] {
+  opacity: 1;
+  border-bottom-color: #1d1c20;
+}
+
+/* greeting — right-aligned, like the desktop composition */
+.hm__header {
+  margin-top: 6px;
+  text-align: right;
+}
+.hm__header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(27px, calc(var(--w) * 0.088), 42px);
+  line-height: 1.12;
+  color: #1d1c20;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.22);
+}
+.hm__header p {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(13px, calc(var(--w) * 0.042), 16px);
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  color: #2a292d;
+}
+
+/* ───────── photo: its own block, the face stays free of text ───────── */
+.hm__photo {
+  position: relative;
+  height: calc(var(--w) * 1.14);
+  margin: var(--gap) calc(var(--pad) * -1) 0; /* full-bleed */
+}
+.hm__art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* the photo dissolves into the texture at the bottom */
+  -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
+}
+.hm__portraitbox {
+  position: absolute;
+  top: calc(var(--w) * -0.1);
+  left: 0;
+  width: 100%;
+  aspect-ratio: 622 / 1019;
+}
+.hm__portrait {
+  position: absolute;
+  inset: 0;
+  /* PNG carries ~14% alpha from Figma; stack it for a clearer portrait */
+  background-image: var(--panel-img), var(--panel-img), var(--panel-img);
+  background-size: 100% 100%;
+  filter: grayscale(1) sepia(0.12) contrast(1.05) brightness(0.9);
+  -webkit-mask-image: radial-gradient(ellipse 80% 46% at 50% 42%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 46% at 50% 42%, #000 30%, transparent 100%);
+}
+/* hair strokes share the portrait's box, so they scale with it */
+.hm__hair {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* vertical PORTFOLIO at the left edge, over the hair — never over the face */
+.hm__portfolio {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--pad) * 0.7);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.hm__portfolio span {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(28px, calc(var(--w) * 0.098), 44px);
+  letter-spacing: 0.3em;
+  line-height: 1;
+  white-space: nowrap;
+  /* as in the desktop: one half light, one half dark. The box is rotated 180°, so the
+     first (top) part of the gradient lands at the bottom of the word: "PORT" over the
+     darkening zone is light, "FOLIO" over the light zone is dark. */
+  background: linear-gradient(to bottom, #fff 0 44%, #1d1c20 47% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.22));
+}
+
+/* ───────── two circles, one after the other ───────── */
+.hm__circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+.hm__block {
+  text-align: left;
+}
+.hm__block p,
+.hm__block em {
+  margin: 0;
+}
+
+/* heavier circle: professional positioning — soft graphite, gently debossed */
+.hm__circle--role {
+  align-self: flex-start;
+  width: clamp(228px, calc(var(--w) * 0.69), 290px);
+  /* sits below the chin, on the photo's fade: mouth and chin stay fully visible */
+  margin: calc(var(--w) * -0.03) 0 0 calc(var(--pad) * -0.3);
+  background: radial-gradient(circle at 32% 26%, #2f2e32 0%, #1f1e22 58%, #161518 100%);
+  box-shadow:
+    inset 7px 9px 16px rgba(0, 0, 0, 0.38),
+    inset -4px -5px 10px rgba(255, 255, 255, 0.045),
+    3px 4px 4px rgba(255, 255, 255, 0.07),
+    0 14px 26px rgba(0, 0, 0, 0.24);
+}
+.hm__role-title {
+  font-size: clamp(14px, calc(var(--w) * 0.05), 19px);
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+}
+.hm__role-title strong {
+  font-size: clamp(34px, calc(var(--w) * 0.116), 52px);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.hm__role-sub {
+  margin-top: 6px !important;
+  font-size: clamp(15px, calc(var(--w) * 0.052), 21px);
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* philosophy: set straight on the textured background — no circle, no backing */
+.hm__tagline {
+  align-self: flex-end;
+  width: 78%;
+  margin: calc(var(--gap) * 0.9) 0 0 0;
+}
+.hm__tagline + .hm__nav {
+  margin-top: calc(var(--gap) * 1.9 + var(--w) * 0.185);
+}
+.hm__tagline-rule {
+  display: block;
+  width: clamp(36px, calc(var(--w) * 0.14), 60px);
+  height: 1px;
+  margin-bottom: clamp(12px, calc(var(--w) * 0.04), 18px);
+  background: rgba(240, 240, 242, 0.7);
+}
+.hm__tag-lead {
+  margin: 0;
+  font-size: clamp(13.5px, calc(var(--w) * 0.042), 16.5px);
+  line-height: 1.35;
+  letter-spacing: 0.05em;
+  /* NB: the textured background is dark graphite here, so graphite text would not be legible */
+  color: rgba(232, 232, 235, 0.82);
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.hm__tag-lead b {
+  font-weight: 600;
+  color: #fff;
+}
+.hm__tagline em {
+  display: block;
+  margin-top: clamp(6px, calc(var(--w) * 0.02), 10px);
+  font-family: var(--font-accent);
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(30px, calc(var(--w) * 0.104), 48px);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: #fff;
+  text-shadow: 3px 4px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* ───────── navigation: touch-friendly rows on the signature line with dots ───────── */
+.hm__nav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: calc(var(--gap) * 1.3);
+}
+.hm__nav::before {
+  /* thin vertical line through the dots (centre of the 14px dot) */
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 14px;
+  bottom: 14px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.hm__nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 56px;
+  font-family: var(--font-display);
+  font-size: clamp(19px, calc(var(--w) * 0.058), 23px);
+  color: rgba(255, 255, 255, 0.92);
+}
+.hm__nav a:first-child {
+  font-size: clamp(21px, calc(var(--w) * 0.064), 25px);
+  color: #fff;
+}
+.hm__nav a:active,
+.hm__nav a:focus-visible {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  outline: none;
+}
+.hm__dot {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #b9b9b9);
+  box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.45);
+}
+
+.hm__contacts {
+  justify-content: space-between;
+  margin-top: var(--gap);
+  padding: 0 2px;
+}
+.hm__contacts .contacts__link {
+  min-width: 72px;
+  min-height: 64px;
+}
