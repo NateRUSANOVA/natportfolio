@@ -1,0 +1,3 @@
+{
+  "rewrites": [{ "source": "/:lang(en|fr|uk)/:path*", "destination": "/:lang/index.html" }]
+}

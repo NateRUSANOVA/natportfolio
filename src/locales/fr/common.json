@@ -1,0 +1,27 @@
+{
+  "aria": {
+    "section": "Introduction",
+    "nav": "Navigation principale",
+    "portfolio": "Portfolio",
+    "language": "Langue"
+  },
+  "contacts": {
+    "group": "Contact rapide",
+    "email": {
+      "label": "E-mail",
+      "title": "M’écrire un e-mail"
+    },
+    "whatsapp": {
+      "label": "WhatsApp",
+      "title": "M’écrire sur WhatsApp"
+    },
+    "instagram": {
+      "label": "Instagram",
+      "title": "Me suivre sur Instagram"
+    },
+    "linkedin": {
+      "label": "LinkedIn",
+      "title": "Voir mon profil LinkedIn"
+    }
+  }
+}

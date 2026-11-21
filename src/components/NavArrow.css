@@ -1,0 +1,81 @@
+/* Navigation marker. Size comes from --dot (set by the desktop / mobile layout).
+   Blue marks interaction only; hover / pressed react to the whole row. */
+.nav-dot {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--dot, 34px);
+  height: var(--dot, 34px);
+  box-sizing: border-box;
+  border: 1.5px solid var(--blue-ring);
+  border-radius: 50%;
+  /* solid fill so the vertical line does not show through the outlined circles */
+  background: var(--dot-fill, #232323);
+  /* a hair of inner shadow: same language as the big black circles, very quiet */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: var(--blue-light);
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.nav-dot svg {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s;
+}
+.nav-dot--primary {
+  border-color: var(--blue-light);
+  /* Royal Cobalt -> Ink Ultramarine: a quiet diagonal depth, no glow */
+  background: linear-gradient(150deg, var(--blue) 0%, var(--blue-depth) 100%);
+  color: #fff;
+  box-shadow:
+    0 5px 11px rgba(0, 0, 0, 0.5),
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.16),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.22);
+}
+
+a:hover > .nav-dot svg,
+a:focus-visible > .nav-dot svg {
+  transform: translateX(2px);
+}
+a:hover > .nav-dot:not(.nav-dot--primary),
+a:focus-visible > .nav-dot:not(.nav-dot--primary) {
+  background: linear-gradient(
+      color-mix(in srgb, var(--blue) 40%, transparent),
+      color-mix(in srgb, var(--blue) 40%, transparent)
+    ),
+    var(--dot-fill, #232323);
+  border-color: var(--blue-light);
+}
+a:hover > .nav-dot--primary,
+a:focus-visible > .nav-dot--primary {
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--blue-ring) 32%, transparent),
+    0 5px 11px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.28),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.28);
+}
+a:active > .nav-dot {
+  transform: scale(0.94);
+}
+a:active > .nav-dot--primary {
+  background: var(--blue-deep);
+  border-color: var(--blue-light);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.45);
+}
+a:active > .nav-dot:not(.nav-dot--primary) {
+  background: linear-gradient(
+      color-mix(in srgb, var(--blue-deep) 75%, transparent),
+      color-mix(in srgb, var(--blue-deep) 75%, transparent)
+    ),
+    var(--dot-fill, #232323);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-dot,
+  .nav-dot svg {
+    transition: none;
+  }
+  a:hover > .nav-dot svg,
+  a:focus-visible > .nav-dot svg {
+    transform: none;
+  }
+}

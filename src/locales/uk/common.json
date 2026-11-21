@@ -1,0 +1,27 @@
+{
+  "aria": {
+    "section": "Вступ",
+    "nav": "Головна навігація",
+    "portfolio": "Портфоліо",
+    "language": "Мова"
+  },
+  "contacts": {
+    "group": "Швидкий зв’язок",
+    "email": {
+      "label": "Email",
+      "title": "Написати листа"
+    },
+    "whatsapp": {
+      "label": "WhatsApp",
+      "title": "Написати у WhatsApp"
+    },
+    "instagram": {
+      "label": "Instagram",
+      "title": "Підписатися в Instagram"
+    },
+    "linkedin": {
+      "label": "LinkedIn",
+      "title": "Переглянути профіль у LinkedIn"
+    }
+  }
+}

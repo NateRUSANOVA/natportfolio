@@ -1,17 +1,19 @@
 import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { TFunction } from 'i18next'
 import { contacts } from '../config/contacts'
 
 const STROKE = {
   fill: 'none',
   stroke: 'currentColor',
-  strokeWidth: 1.5,
+  strokeWidth: 1.4,
   strokeLinecap: 'round',
   strokeLinejoin: 'round',
 } as const
 
 function Icon({ children }: { children: ReactNode }) {
   return (
-    <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden {...STROKE}>
+    <svg viewBox="0 0 24 24" width="46" height="46" aria-hidden {...STROKE}>
       {children}
     </svg>
   )
@@ -41,6 +43,17 @@ const InstagramIcon = () => (
   </Icon>
 )
 
+const LinkedInIcon = () => (
+  <Icon>
+    <rect x="3" y="3" width="18" height="18" rx="3" />
+    <path d="M8 10.5V17M12 17v-6.5M12 13.5a3 3 0 0 1 6 0V17" />
+    <circle cx="8" cy="7.4" r="0.7" fill="currentColor" />
+  </Icon>
+)
+
+/** Only a real LinkedIn profile link is shown; an empty or other value hides the icon. */
+const hasLinkedIn = /^https:\/\/([a-z0-9-]+\.)?linkedin\.com\//i.test(contacts.linkedin)
+
 type Item = {
   key: string
   label: string
@@ -50,20 +63,20 @@ type Item = {
   icon: ReactNode
 }
 
-function buildItems(): Item[] {
+function buildItems(t: TFunction): Item[] {
   const items: Item[] = [
     {
       key: 'email',
-      label: 'Email',
-      title: 'Write me an email',
+      label: t('contacts.email.label'),
+      title: t('contacts.email.title'),
       href: contacts.email ? `mailto:${contacts.email}` : '#contact',
       external: false,
       icon: <MailIcon />,
     },
     {
       key: 'whatsapp',
-      label: 'WhatsApp',
-      title: 'Message me on WhatsApp',
+      label: t('contacts.whatsapp.label'),
+      title: t('contacts.whatsapp.title'),
       href: contacts.whatsapp ? `https://wa.me/${contacts.whatsapp}` : '#contact',
       external: Boolean(contacts.whatsapp),
       icon: <WhatsAppIcon />,
@@ -72,11 +85,21 @@ function buildItems(): Item[] {
   if (contacts.showInstagram) {
     items.push({
       key: 'instagram',
-      label: 'Instagram',
-      title: 'Follow me on Instagram',
+      label: t('contacts.instagram.label'),
+      title: t('contacts.instagram.title'),
       href: contacts.instagram ? `https://instagram.com/${contacts.instagram}` : '#contact',
       external: Boolean(contacts.instagram),
       icon: <InstagramIcon />,
+    })
+  }
+  if (hasLinkedIn) {
+    items.push({
+      key: 'linkedin',
+      label: t('contacts.linkedin.label'),
+      title: t('contacts.linkedin.title'),
+      href: contacts.linkedin,
+      external: true,
+      icon: <LinkedInIcon />,
     })
   }
   return items
@@ -84,9 +107,10 @@ function buildItems(): Item[] {
 
 /** Quick-contact icons, each with a visible label so the action is obvious. */
 export default function ContactLinks({ className = '' }: { className?: string }) {
+  const { t } = useTranslation('common')
   return (
-    <ul className={`contacts ${className}`} aria-label="Contact me">
-      {buildItems().map((c) => (
+    <ul className={`contacts ${className}`} aria-label={t('contacts.group')}>
+      {buildItems(t).map((c) => (
         <li key={c.key}>
           <a
             className="contacts__link"

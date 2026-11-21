@@ -6,11 +6,16 @@
  *  whatsapp  — international number, digits only (e.g. '41791234567'), no "+" or spaces
  *  instagram — handle without "@" (e.g. 'nataliia.design')
  *
- * Set showInstagram to false to hide the Instagram icon.
+ *  linkedin  — full profile URL, e.g. 'https://www.linkedin.com/in/your-profile'.
+ *              The LinkedIn icon appears ONLY when this is a real linkedin.com link.
+ *
+ * Instagram is hidden for now (no professional account yet): set showInstagram to true and
+ * fill in `instagram` to bring it back.
  */
 export const contacts = {
   email: '',
   whatsapp: '',
   instagram: '',
-  showInstagram: true,
+  showInstagram: false,
+  linkedin: '',
 }

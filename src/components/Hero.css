@@ -199,29 +199,45 @@
   overflow: visible;
 }
 .hero__line line {
-  stroke: #fff;
+  stroke: url(#line-fade); /* fades gently toward the bottom; data-line='solid' restores the full line */
   stroke-opacity: 0.86;
   stroke-width: 3;
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
 }
+html[data-line='solid'] .hero__line line {
+  stroke: #fff;
+}
 
 .hero__lang {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 23px;
   line-height: normal;
-  color: #fff;
-  opacity: 0.85;
+  color: rgba(255, 255, 255, 0.8);
+  /* roomy touch target; the negative margin keeps the label where it was placed */
+  padding: 12px 14px;
+  margin: -12px -14px;
+  border-radius: 8px;
+  transition: color 0.2s;
 }
-.hero__lang[aria-pressed='true'],
 .hero__lang:hover {
-  opacity: 1;
+  color: #fff;
+}
+.hero__lang[aria-pressed='true'] {
+  color: var(--blue-light);
+}
+.hero__lang:active {
+  color: var(--blue-ring);
 }
 .hero__lang:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 4px;
+  outline: 2px solid var(--blue-light);
+  outline-offset: 0;
 }
 .hero__lang-underline {
-  object-fit: fill;
+  background: var(--blue-ring);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
   pointer-events: none;
   transition: left 0.25s;
 }
@@ -229,7 +245,14 @@
 /* top-right navigation: generous hit areas, clear hover/focus */
 .hero__nav-item {
   display: block;
-  border-radius: 8px;
+  border-radius: 24px;
+  --dot: 34px;
+  --dot-fill: #292928;
+}
+.hero__nav-item .nav-dot {
+  position: absolute;
+  left: 0; /* centre of the circle stays on the vertical line (x = 1155) */
+  top: 5px;
 }
 .hero__nav-label {
   position: absolute;
@@ -237,30 +260,40 @@
   font-size: 24px;
   line-height: 1.2;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.92);
+  color: #fff;
   text-decoration: underline transparent;
   text-underline-offset: 6px;
   text-decoration-thickness: 1px;
   transition: color 0.2s, text-decoration-color 0.2s, transform 0.2s;
 }
+/* Explore My Work is the primary action */
+.hero__nav-item--primary .hero__nav-label {
+  font-size: 27px;
+  margin-top: -2px;
+  /* Iansui has a single weight: a hairline stroke gives the CTA a firmer cut */
+  -webkit-text-stroke: 0.5px currentColor;
+}
 .hero__nav-item:hover .hero__nav-label,
 .hero__nav-item:focus-visible .hero__nav-label {
-  color: #fff;
-  text-decoration-color: rgba(255, 255, 255, 0.8);
+  text-decoration-color: currentColor;
   transform: translateX(4px);
 }
+.hero__nav-item:active .hero__nav-label {
+  opacity: 0.75;
+  transform: translateX(2px);
+}
 .hero__nav-item:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
+  outline: 2px solid var(--blue-light);
+  outline-offset: 3px;
 }
 
 /* quick-contact icons under "Get in Touch" */
 .hero__contacts {
-  left: 1186px;
+  left: 1188px; /* Email icon's left edge = left edge of the navigation labels (x = 1196) */
   top: 383px;
 }
 .hero__contacts.contacts {
-  gap: 22px;
+  gap: 44px; /* WhatsApp sits 24 px further right than before */
 }
 .hero__contacts .contacts__link {
   width: 60px;
@@ -282,33 +315,32 @@
   min-height: 44px;
   padding: 4px 2px;
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--blue-light); /* icon colour; labels are set below */
   transition: color 0.2s, transform 0.2s;
 }
 .contacts__label {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.6px;
   line-height: 1;
+  color: rgba(255, 255, 255, 0.82);
 }
 .contacts__link:hover,
 .contacts__link:focus-visible {
-  color: #fff;
+  color: var(--blue-light);
   transform: translateY(-2px);
 }
 .contacts__link:hover .contacts__label,
 .contacts__link:focus-visible .contacts__label {
+  color: #fff;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.contacts__link:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
+.contacts__link:active {
+  color: var(--blue-ring);
+  transform: none;
 }
-
-/* Explore My Work is the primary action */
-.hero__nav-item:first-child .hero__nav-label {
-  font-size: 27px;
-  margin-top: -2px;
-  color: #fff;
+.contacts__link:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 2px;
 }

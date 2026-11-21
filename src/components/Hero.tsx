@@ -1,32 +1,36 @@
-import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { useLanguage } from '../i18n/useLanguage'
+import { LANGUAGES, type Lang } from '../i18n/languages'
 import bg from '../assets/portfolio-bg.png'
 import panelTexture from '../assets/panel-texture.png'
 import ellipse1 from '../assets/ellipse-1.svg'
 import ellipse3 from '../assets/ellipse-3.svg'
-import dot1 from '../assets/dot-1.svg'
-import dot2 from '../assets/dot-2.svg'
-import dot3 from '../assets/dot-3.svg'
 import langUnderline from '../assets/lang-underline.svg'
 import ContactLinks from './ContactLinks'
+import NavArrow from './NavArrow'
 import HairLines from './HairLines'
 
+// Link targets stay anchors until the Works / About / Contact pages exist.
 const NAV = [
-  { href: '#work', label: 'Explore My Work', top: 218, dot: dot1, dotTop: 222, alpha: 0.75 },
-  { href: '#about', label: 'About me', top: 273, dot: dot2, dotTop: 277, alpha: 0.8 },
-  { href: '#contact', label: 'Get in Touch', top: 328, dot: dot3, dotTop: 335, alpha: 0.8 },
-]
+  { href: '#work', key: 'work', top: 218 },
+  { href: '#about', key: 'about', top: 273 },
+  { href: '#contact', key: 'contact', top: 328 },
+] as const
 
-const LANGS = [
-  { code: 'FR', left: 1210, top: 963, spacing: 4.4 },
-  { code: 'ENG', left: 1280, top: 963, spacing: 2.6 },
-  { code: 'UKR', left: 1356, top: 962, spacing: 2.6 },
-]
+// Visible labels (FR / ENG / UKR) come from LANGUAGES; only the placement lives here.
+const LANG_POS: Record<Lang, { left: number; top: number; spacing: number; underline: number }> = {
+  fr: { left: 1232, top: 962, spacing: 4.4, underline: 40 },
+  en: { left: 1306, top: 962, spacing: 2.6, underline: 42 },
+  uk: { left: 1378, top: 962, spacing: 2.6, underline: 46 },
+}
 
 export default function Hero() {
-  const [lang, setLang] = useState('ENG')
+  const { t } = useTranslation('home')
+  const { t: tc } = useTranslation('common')
+  const { current, change } = useLanguage()
 
   return (
-    <section className="hero" aria-label="Introduction">
+    <section className="hero" aria-label={tc('aria.section')}>
       <div className="hero__bg" aria-hidden>
         <img src={bg} alt="" />
       </div>
@@ -62,58 +66,53 @@ export default function Hero() {
 
       <div className="abs hero__role" style={{ left: 290, top: 851 }}>
         <p className="hero__role-title">
-          <strong>UX/UI</strong> &amp;
+          <Trans t={t} i18nKey="role.title" components={{ strong: <strong /> }} />
         </p>
         <p className="hero__role-sub">
-          Visual Communication
-          <br />
-          Designer
+          <Trans t={t} i18nKey="role.sub" components={{ br: <br /> }} />
         </p>
       </div>
 
-      <h2 className="hero__portfolio" aria-label="Portfolio">
-        <span>PORTFOLIO</span>
+      <h2 className="hero__portfolio" aria-label={tc('aria.portfolio')}>
+        <span>{t('portfolio')}</span>
       </h2>
 
       <p className="abs hero__tagline" style={{ left: 741, top: 504 }}>
         <span className="hero__tagline-lead">
-          Bringing <b>beauty</b>
-          <br />
-          and <b>purpose</b> together
-          <br />
-          through
+          <Trans t={t} i18nKey="tagline.lead" components={{ b: <b />, br: <br /> }} />
         </span>
-        <em>simplicity</em>
+        <em>{t('tagline.accent')}</em>
       </p>
 
       <h1 className="abs hero__title" style={{ right: 40, top: 40, textAlign: 'right' }}>
-        Hello, I am Nataliia
+        {t('greeting')}
       </h1>
       <p className="abs hero__open" style={{ right: 40, top: 115, textAlign: 'right' }}>
-        Open to full-time roles &amp; freelance projects
+        {t('open')}
       </p>
 
       <svg className="abs hero__line" width="1440" height="1024" aria-hidden>
+        <defs>
+          <linearGradient id="line-fade" gradientUnits="userSpaceOnUse" x1="0" y1="187" x2="0" y2="921">
+            <stop offset="0" stopColor="#fff" stopOpacity="1" />
+            <stop offset="0.62" stopColor="#fff" stopOpacity="1" />
+            <stop offset="1" stopColor="#fff" stopOpacity="0.06" />
+          </linearGradient>
+        </defs>
         <line x1="1155" y1="187" x2="1155" y2="921" />
       </svg>
 
-      <nav aria-label="Main">
-        {NAV.map((item) => (
+      <nav aria-label={tc('aria.nav')}>
+        {NAV.map((item, i) => (
           <a
-            key={item.label}
+            key={item.key}
             href={item.href}
-            className="abs hero__nav-item"
+            className={`abs hero__nav-item${i === 0 ? ' hero__nav-item--primary' : ''}`}
             style={{ left: 1138, top: item.top - 9, width: 262, height: 44 }}
           >
-            <img
-              className="abs"
-              src={item.dot}
-              alt=""
-              aria-hidden
-              style={{ left: 6, top: 12, width: 22, height: 22 }}
-            />
+            <NavArrow primary={i === 0} />
             <span className="hero__nav-label" style={{ left: 58, top: 9 }}>
-              {item.label}
+              {t(`nav.${item.key}`)}
             </span>
           </a>
         ))}
@@ -121,29 +120,35 @@ export default function Hero() {
 
       <ContactLinks className="abs hero__contacts" />
 
-      <div role="group" aria-label="Language">
-        {LANGS.map((l) => (
+      <div role="group" aria-label={tc('aria.language')}>
+        {LANGUAGES.map((l) => (
           <button
             key={l.code}
             type="button"
+            lang={l.code}
+            aria-label={l.name}
             className="abs hero__lang"
-            aria-pressed={lang === l.code}
-            onClick={() => setLang(l.code)}
-            style={{ left: l.left, top: l.top, letterSpacing: l.spacing }}
+            aria-pressed={current === l.code}
+            onClick={() => change(l.code)}
+            style={{
+              left: LANG_POS[l.code].left,
+              top: LANG_POS[l.code].top,
+              letterSpacing: LANG_POS[l.code].spacing,
+            }}
           >
-            {l.code}
+            {l.label}
           </button>
         ))}
-        <img
+        <span
           className="abs hero__lang-underline"
-          src={langUnderline}
-          alt=""
           aria-hidden
           style={{
-            left: LANGS.find((l) => l.code === lang)!.left,
+            left: LANG_POS[current].left,
             top: 1000,
-            width: 58,
+            width: LANG_POS[current].underline,
             height: 4,
+            maskImage: `url(${langUnderline})`,
+            WebkitMaskImage: `url(${langUnderline})`,
           }}
         />
       </div>

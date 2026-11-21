@@ -1,7 +1,17 @@
 :root {
-  --font-display: 'Iansui', 'Hind Vadodara', sans-serif;
-  --font-body: 'Hind Vadodara', system-ui, sans-serif;
-  --font-accent: 'Host Grotesk', 'Hind Vadodara', sans-serif;
+  /* Cyrillic: the three brand fonts have no Cyrillic glyphs, so the browser falls back per glyph
+     to Comfortaa / Noto Sans / Manrope. Latin and French text keeps the approved fonts. */
+  --font-display: 'Iansui', 'Comfortaa', 'Hind Vadodara', sans-serif;
+  --font-body: 'Hind Vadodara', 'Noto Sans', system-ui, sans-serif;
+  --font-accent: 'Host Grotesk', 'Manrope', 'Hind Vadodara', sans-serif;
+  /* Blue = interaction only (never photo, background, decoration, big circles).
+     fill: filled circle · ring: outlines, underline, pressed icons · light: text, icons, active ·
+     deep: pressed. Default = variant B (recommended); A #2846e8 and C #3a52a8 are the alternatives. */
+  --blue: #3454d1; /* Primary: Royal Cobalt */
+  --blue-depth: #3a52a8; /* Depth: Ink Ultramarine */
+  --blue-light: #9aade9; /* Light: outlines, arrows, icons, active language */
+  --blue-ring: var(--blue-light);
+  --blue-deep: color-mix(in srgb, var(--blue) 80%, #000); /* pressed: derived, keeps the hue visible on graphite */
   --graphite: #1c1c1c;
 }
 

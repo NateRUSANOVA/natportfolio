@@ -1,0 +1,19 @@
+{
+  "greeting": "Bonjour, je suis Nataliia",
+  "open": "Ouverte aux postes à temps plein et aux projets freelance",
+  "role": {
+    "title": "Designer <strong>UX/UI</strong> &",
+    "sub": "communication visuelle"
+  },
+  "tagline": {
+    "lead": "Allier <b>beauté</b><br/>et <b>sens</b><br/>par la",
+    "leadMobile": "Allier <b>beauté</b><br/>et <b>sens</b><br/>par la",
+    "accent": "simplicité"
+  },
+  "portfolio": "PORTFOLIO",
+  "nav": {
+    "work": "Voir mes projets",
+    "about": "À propos de moi",
+    "contact": "Me contacter"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "greeting": "Hello, I am Nataliia",
+  "open": "Open to full-time roles & freelance projects",
+  "role": {
+    "title": "<strong>UX/UI</strong> &",
+    "sub": "Visual Communication<br/>Designer"
+  },
+  "tagline": {
+    "lead": "Bringing <b>beauty</b><br/>and <b>purpose</b> together<br/>through",
+    "leadMobile": "Bringing <b>beauty</b><br/>and <b>purpose</b><br/>together through",
+    "accent": "simplicity"
+  },
+  "portfolio": "PORTFOLIO",
+  "nav": {
+    "work": "Explore My Work",
+    "about": "About me",
+    "contact": "Get in Touch"
+  }
+}

@@ -69,26 +69,50 @@
   padding: 8px var(--pad) calc(40px + env(safe-area-inset-bottom, 0px));
 }
 
-/* language switcher — 44px touch targets */
+/* language switcher — sits on the light photo area, so it gets a small dark capsule that keeps
+   white / Electric Blue text above AA contrast. Each button is at least 44 × 48 px. */
 .hm__langs {
   display: flex;
   justify-content: flex-end;
-  margin-right: -10px;
+  align-items: center;
+  width: fit-content;
+  margin-left: auto;
+  padding: 0 4px;
+  border-radius: 22px;
+  background: rgba(29, 28, 32, 0.92);
 }
 .hm__langs button {
-  min-width: 48px;
-  min-height: 44px;
+  position: relative;
+  min-width: 50px;
+  min-height: 46px;
   padding: 0 10px;
+  border-radius: 22px;
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 19px;
   letter-spacing: 2.4px;
-  color: #1d1c20;
-  opacity: 0.7;
-  border-bottom: 2px solid transparent;
+  color: rgba(255, 255, 255, 0.82);
+  transition: color 0.2s;
 }
 .hm__langs button[aria-pressed='true'] {
-  opacity: 1;
-  border-bottom-color: #1d1c20;
+  color: var(--blue-light);
+}
+.hm__langs button[aria-pressed='true']::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  width: 22px;
+  height: 2px;
+  margin-left: -11px;
+  border-radius: 2px;
+  background: var(--blue-ring);
+}
+.hm__langs button:active {
+  color: var(--blue-ring);
+}
+.hm__langs button:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: -2px;
 }
 
 /* greeting — right-aligned, like the desktop composition */
@@ -283,50 +307,59 @@
   margin-top: calc(var(--gap) * 1.3);
 }
 .hm__nav::before {
-  /* thin vertical line through the dots (centre of the 14px dot) */
+  /* thin vertical line through the circles (neutral, not blue) */
   content: '';
   position: absolute;
-  left: 6px;
-  top: 14px;
-  bottom: 14px;
+  left: 15px;
+  top: 28px;
+  bottom: 28px;
   width: 1px;
   background: rgba(255, 255, 255, 0.55);
 }
 .hm__nav a {
+  --dot: 30px;
+  --dot-fill: #1d1c20;
   position: relative;
   display: flex;
   align-items: center;
-  gap: 18px;
-  min-height: 56px;
+  gap: 12px;
+  min-height: 56px; /* whole row is the tap target */
+  border-radius: 28px;
   font-family: var(--font-display);
   font-size: clamp(19px, calc(var(--w) * 0.058), 23px);
-  color: rgba(255, 255, 255, 0.92);
+  color: #fff;
+  transition: color 0.2s;
 }
 .hm__nav a:first-child {
   font-size: clamp(21px, calc(var(--w) * 0.064), 25px);
-  color: #fff;
+  -webkit-text-stroke: 0.45px currentColor;
 }
-.hm__nav a:active,
+.hm__nav a:active {
+  opacity: 0.8;
+}
 .hm__nav a:focus-visible {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.06);
-  outline: none;
-}
-.hm__dot {
-  flex: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff, #b9b9b9);
-  box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.45);
+  outline: 2px solid var(--blue-light);
+  outline-offset: 0;
 }
 
 .hm__contacts {
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 44px;
   margin-top: var(--gap);
-  padding: 0 2px;
+  /* Email icon's left edge lines up with the navigation labels (circle 30 + gap 12 = 42 px) */
+  padding: 0 0 0 32px;
 }
 .hm__contacts .contacts__link {
-  min-width: 72px;
+  min-width: 64px;
   min-height: 64px;
+}
+
+/* Ukrainian: the specialization block is left-aligned with the same inner inset as the English
+   version (about 11.5% of the circle), so no line reaches the circle edge. The circle itself and
+   all font sizes are unchanged. English and French are untouched. */
+html[lang='uk'] .hm__circle--role {
+  justify-content: flex-start;
+}
+html[lang='uk'] .hm__block {
+  margin-left: calc(clamp(228px, calc(var(--w) * 0.69), 290px) * 0.115);
 }

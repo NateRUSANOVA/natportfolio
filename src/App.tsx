@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import LangLayout, { RootRedirect } from './i18n/LangLayout'
 import Hero from './components/Hero'
 import HeroMobile from './components/HeroMobile'
 import './components/Hero.css'
@@ -48,6 +50,22 @@ function DesktopStage() {
   )
 }
 
-export default function App() {
+function Home() {
   return useIsMobile() ? <HeroMobile /> : <DesktopStage />
+}
+
+/**
+ * Every page lives under /:lang (en | fr | uk). A new page is one more <Route> inside LangLayout
+ * plus its own translation namespace in src/locales.
+ */
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<RootRedirect />} />
+      <Route path="/:lang" element={<LangLayout />}>
+        <Route index element={<Home />} />
+      </Route>
+      <Route path="*" element={<RootRedirect />} />
+    </Routes>
+  )
 }
